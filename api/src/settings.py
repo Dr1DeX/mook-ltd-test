@@ -4,10 +4,12 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     DB_HOST: str = 'localhost'
     DB_PORT: int = 5432
-    DB_PASSWORD: str = 'mega-pass'
-    DB_USER: str = 'postgres'
+    DB_PASSWORD: str = '123lol'
+    DB_USER: str = 'ltd_user'
     DB_NAME: str = 'ltd'
     DB_DRIVER: str = 'postgresql+asyncpg'
+    JWT_SECRET_KEY: str = 'mega-super-secret'
+    JWT_ENCODE_ALGORYTHM: str = 'HS256'
 
     @property
     def db_url(self):
