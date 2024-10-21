@@ -1,0 +1,55 @@
+version: '3'
+services:
+  ltd_db:
+    container_name: ltd_db
+    image: postgres:16.2-alpine
+    restart: always
+    shm_size: 128mb
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGDATA:/var/lib/postgresql/data/pgdata
+    volumes:
+      - ltd-data:/var/lig/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: .docker/dev/api/Dockerfile
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      ltd_db:
+        condition: service_healthy
+    env_file:
+      - .env.staging
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .docker/dev/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    volumes:
+      - ./.logs/nginx:/var/log/nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+
+
+
+volumes:
+  ltd-data:
+    driver: local

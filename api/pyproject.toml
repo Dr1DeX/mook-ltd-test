@@ -17,6 +17,9 @@ psycopg2-binary = "^2.9.10"
 aiogram = "^3.13.1"
 aioredis = "^2.0.1"
 celery = "^5.4.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+greenlet = "^3.1.1"
+bcrypt = "^4.2.0"
 
 
 [build-system]
