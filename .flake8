@@ -1,0 +1,25 @@
+[flake8]
+ignore = A002,A003,W503,DUO130,E712,E731,E800,W291
+per-file-ignores =
+    # imported but unused
+    */__init__.py: F401,F403
+    scheduler/*: F401,F403
+    */conftest.py: F401, F403
+    */table_engines.py: E501
+exclude =
+    .git,
+    __pycache__,
+    venv/*,
+    */migrations/*,
+    ./storage/*,
+max-line-length = 120
+
+
+[pycodestyle]
+max_line_length = 120
+jobs = 4
+exclude =
+    .git,
+    __pycache__,
+    venv/*,
+    */migrations/*,
