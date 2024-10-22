@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper, Box, Link, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import config from '../config';
+import Cookies from 'js-cookie'
 import "react-toastify/dist/ReactToastify.css";
+import apiClient from '../apiClient';
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false); // Состояние для отслеживания загрузки
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Начало загрузки
+        setLoading(true);
         try {
             const response = await new Promise((resolve) => {
                 setTimeout(async () => {
-                    const result = await axios.post(`${config.backendUrl}/user`, { username, password, email });
+                    const result = await apiClient.post('/user', { username, password, email });
                     resolve(result);
-                }, 3000); // Задержка в 3 секунды
+                }, 3000);
             });
             if (response.status === 200) {
+                Cookies.set('token', response.data.access_token, { expires: 100 / (60 * 60 * 24) });
                 toast.success('Вы успешно зарегистрировались!');
                 navigate('/');
             }
@@ -32,9 +33,10 @@ const Register = () => {
                 toast.warning('Такой email уже существует!');
             } else {
                 toast.error('Произошла ошибка!');
+                Cookies.remove('token');
             }
         } finally {
-            setLoading(false); // Окончание загрузки
+            setLoading(false);
         }
     };
 

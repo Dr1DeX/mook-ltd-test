@@ -1,7 +1,11 @@
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship,
+)
+
 from src.dispatcher.messages.models import Messages
 from src.infrastructure.database import Base
-
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class UserProfile(Base):
@@ -13,8 +17,12 @@ class UserProfile(Base):
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
 
     sent_messages = relationship(
-        'Messages', foreign_keys=[Messages.sender_id], back_populates='sender'
+        'Messages',
+        foreign_keys=[Messages.sender_id],
+        back_populates='sender',
     )
     received_messages = relationship(
-        'Messages', foreign_keys=Messages.recipient_id, back_populates='recipient'
+        'Messages',
+        foreign_keys=Messages.recipient_id,
+        back_populates='recipient',
     )

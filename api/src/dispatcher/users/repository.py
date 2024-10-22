@@ -1,9 +1,13 @@
 from dataclasses import dataclass
 
-from sqlalchemy import insert, select
+from sqlalchemy import (
+    insert,
+    select,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.dispatcher.users.schema import UserCreateSchema
+
 from src.dispatcher.users.models import UserProfile
+from src.dispatcher.users.schema import UserCreateSchema
 from src.utils import hash_password
 
 

@@ -1,8 +1,12 @@
 import logging
 
-from src.dispatcher.users.models import UserProfile
-from src.exceptions import UserNotFoundException, UserWrongPasswordException
 import bcrypt
+
+from src.dispatcher.users.models import UserProfile
+from src.exceptions import (
+    UserNotFoundException,
+    UserWrongPasswordException,
+)
 
 
 def validate_auth_user(user: UserProfile, password: str):

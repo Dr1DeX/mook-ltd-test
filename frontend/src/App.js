@@ -7,6 +7,7 @@ import Main from "./components/Main";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Box, CssBaseline } from "@mui/material";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -33,7 +34,14 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/' element={<Main />} />
+            <Route 
+              path='/' 
+              element={
+                <ProtectedRoute>
+                  <Main />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </Box>
         <Footer />
