@@ -19,6 +19,19 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - api 
 
   api:
     container_name: api
