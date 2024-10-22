@@ -9,3 +9,7 @@ class UserLoginSchema(BaseModel):
 class UserAuthSchema(BaseModel):
     email: str
     password: str
+
+
+class LogoutSchema(BaseModel):
+    token: str

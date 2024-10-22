@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     DB_DRIVER: str = 'postgresql+asyncpg'
     JWT_SECRET_KEY: str = 'mega-super-secret'
     JWT_ENCODE_ALGORYTHM: str = 'HS256'
+    CACHE_HOST: str = 'localhost'
+    CACHE_PORT: int = 6379
+    CACHE_DB: int = 0
+    CACHE_TTL: int = 100
 
     @property
     def db_url(self):

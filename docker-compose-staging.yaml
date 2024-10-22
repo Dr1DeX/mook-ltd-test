@@ -32,7 +32,13 @@ services:
       - '3000:3000'
     depends_on:
       - api 
-
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - '6379:6379'
+  
   api:
     container_name: api
     build:

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper, Box, Link, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import config from '../config';
+import Cookies from 'js-cookie';
 import "react-toastify/dist/ReactToastify.css";
+import apiClient from '../apiClient';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -14,27 +14,34 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        try {
-            const response = await new Promise((resolve) => {
-                setTimeout(async () => {
-                    const result = await axios.post(`${config.backendUrl}/auth/login`, { email, password });
+    setLoading(true);
+    try {
+        const response = await new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const result = await apiClient.post('/auth/login', { email, password });
                     resolve(result);
-                }, 3000);
-            });
-            if (response.status === 200) {
-                toast.success('Вы успешно авторизовались!');
-                navigate('/');
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                toast.warning('Неверные имя пользователя или пароль');
-            } else {
-                toast.error('Произошла ошибка!');
-            }
-        } finally {
-            setLoading(false); // Окончание загрузки
+                } catch (err) {
+                    reject(err);
+                }
+            }, 3000);
+        });
+        if (response.status === 200) {
+            Cookies.set('token', response.data.access_token, { expires: 100 / (60 * 60 * 24) });
+            toast.success('Вы успешно авторизовались!');
+            navigate('/');
         }
+    } catch (error) {
+        console.error("Ошибка авторизации: ", error); 
+        if (error.response && (error.response.status === 401 || error.response.status === 404)) {
+            toast.warning('Неверные имя пользователя или пароль');
+        } else {
+            toast.error('Произошла ошибка!');
+            Cookies.remove('token');
+        }
+    } finally {
+        setLoading(false);
+    }
     };
 
     return (
