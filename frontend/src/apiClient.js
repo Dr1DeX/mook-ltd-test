@@ -23,7 +23,7 @@ const refreshAccessToken = async () => {
     try {
         const response = await apiClient.post('/auth/refresh');
         const newToken = response.data.access_token;
-        Cookies.set('token', newToken, { expires: 100 / (60 * 60 * 24) }); // 100 секунд
+        Cookies.set('token', newToken, { expires: 100}); // 100 секунд
         return newToken;
     } catch (error) {
         console.error('Failed to refresh token: ', error);
