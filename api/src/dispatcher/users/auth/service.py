@@ -74,7 +74,7 @@ class AuthService:
     def generate_access_token(self, user_id: int) -> str:
         payload = {
             'user_id': user_id,
-            'expire': (dt.now(tz=datetime.UTC) + timedelta(seconds=100)).timestamp(),
+            'expire': (dt.now(tz=datetime.UTC) + timedelta(minutes=100)).timestamp(),
         }
         encoded_jwt = jwt.encode(
             claims=payload,

@@ -2,7 +2,7 @@ import logging
 
 import bcrypt
 
-from src.dispatcher.users.models import UserProfile
+from src.dispatcher.models import UserProfile
 from src.exceptions import (
     UserNotFoundException,
     UserWrongPasswordException,

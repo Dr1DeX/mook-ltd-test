@@ -10,6 +10,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from redis import asyncio as redis
 
+from src.dispatcher.chat.manager import WebSocketConnectionManager
+from src.dispatcher.chat.repository import ChatRepository
+from src.dispatcher.chat.service import ChatService
 from src.dispatcher.users.auth.service import AuthService
 from src.dispatcher.users.repository import UserRepository
 from src.dispatcher.users.service import UserService
@@ -63,3 +66,23 @@ async def get_request_user_id(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=e.detail)
 
     return user_id
+
+
+async def get_chat_repository(
+    db_session: AsyncSession = Depends(get_db_session),
+) -> ChatRepository:
+    return ChatRepository(
+        db_session=db_session,
+    )
+
+
+async def get_chat_service(
+    chat_repository: ChatRepository = Depends(get_chat_repository),
+) -> ChatService:
+    return ChatService(
+        chat_repository=chat_repository,
+    )
+
+
+async def get_websocket_connection_manager() -> WebSocketConnectionManager:
+    return WebSocketConnectionManager()

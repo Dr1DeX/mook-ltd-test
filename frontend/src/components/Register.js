@@ -24,7 +24,7 @@ const Register = () => {
                 }, 3000);
             });
             if (response.status === 200) {
-                Cookies.set('token', response.data.access_token, { expires: 100 / (60 * 60 * 24) });
+                Cookies.set('token', response.data.access_token, { expires: 100});
                 toast.success('Вы успешно зарегистрировались!');
                 navigate('/');
             }

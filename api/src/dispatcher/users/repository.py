@@ -6,7 +6,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.dispatcher.users.models import UserProfile
+from src.dispatcher.models import UserProfile
 from src.dispatcher.users.schema import UserCreateSchema
 from src.utils import hash_password
 
